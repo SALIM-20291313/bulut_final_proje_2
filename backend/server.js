@@ -13,6 +13,19 @@ app.use(express.json());
 // Veritabanına bağlan
 connectDB();
 
+// Middleware: JWT Doğrulama
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.status(401).json({ error: "Erişim reddedildi, token bulunamadı." });
+    
+    jwt.verify(token, process.env.JWT_SECRET || 'gizli_anahtar', (err, user) => {
+        if (err) return res.status(403).json({ error: "Geçersiz veya süresi dolmuş token." });
+        req.user = user;
+        next();
+    });
+};
+
 // 1. Register API
 app.post('/api/register', async (req, res) => {
     try {
@@ -63,13 +76,21 @@ app.post('/api/login', async (req, res) => {
 // 3. Get Products API
 app.get('/api/products', async (req, res) => {
     try {
-        const allProducts = await Product.find({});
+        const { category, search } = req.query;
+        let query = {};
+        
+        if (category) query.category = category;
+        if (search) query.name = { $regex: search, $options: 'i' };
+        
+        const allProducts = await Product.find(query);
         const formattedProducts = allProducts.map(p => ({
             id: p._id.toString(),
             name: p.name,
             description: p.description,
             price: p.price,
-            image_url: p.image_url
+            image_url: p.image_url,
+            category: p.category,
+            stock: p.stock
         }));
         res.json(formattedProducts);
     } catch (err) {
@@ -78,13 +99,24 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-// 4. Create Order API
-app.post('/api/orders', async (req, res) => {
+// 4. Create Order API (Protected)
+app.post('/api/orders', authenticateToken, async (req, res) => {
     try {
-        const { user_id, total_price } = req.body;
+        const { products, total_price } = req.body;
+        
+        // Stok kontrolü ve düşürme
+        for (let item of products) {
+            const product = await Product.findById(item.productId);
+            if (!product || product.stock < item.quantity) {
+                return res.status(400).json({ error: `${product ? product.name : 'Bilinmeyen Ürün'} için yeterli stok yok!` });
+            }
+            product.stock -= item.quantity;
+            await product.save();
+        }
         
         const newOrder = await Order.create({
-            userId: user_id,
+            userId: req.user.id,
+            products,
             total_price
         });
         
@@ -92,6 +124,29 @@ app.post('/api/orders', async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: "Sipariş oluşturulurken bir hata oluştu." });
+    }
+});
+
+// 5. Get My Orders API (Protected)
+app.get('/api/orders/me', authenticateToken, async (req, res) => {
+    try {
+        const orders = await Order.find({ userId: req.user.id }).populate('products.productId').sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Siparişler getirilemedi." });
+    }
+});
+
+// 6. Admin: Add Product API (Protected - Normally requires admin role)
+app.post('/api/products', authenticateToken, async (req, res) => {
+    try {
+        const { name, description, price, image_url, category, stock } = req.body;
+        const newProduct = await Product.create({ name, description, price, image_url, category, stock });
+        res.json({ message: "Ürün başarıyla eklendi!", product: newProduct });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Ürün eklenirken hata oluştu." });
     }
 });
 

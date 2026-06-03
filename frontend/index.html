@@ -3,72 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudCart | Yeni Nesil E-Ticaret</title>
-    <meta name="description" content="Bulut mimarisi ile güçlendirilmiş, kesintisiz ve hızlı e-ticaret deneyimi.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Bulut E-Ticaret | Premium Alışveriş</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">CloudCart<span>.</span></div>
-        <div class="nav-links">
-            <a href="#" id="home-link">Ana Sayfa</a>
-            <a href="#" id="products-link">Ürünler</a>
-            <a href="#" id="login-link" class="btn-primary">Giriş Yap</a>
-            <span id="user-greeting" style="display: none;"></span>
-            <a href="#" id="logout-link" class="btn-secondary" style="display: none;">Çıkış</a>
+        <div class="nav-brand" onclick="showTab('products-tab')">
+            <i class="fa-solid fa-cloud"></i> BulutMarket
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Ürün ara...">
+            <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+        </div>
+
+        <div class="nav-actions">
+            <div class="cart-icon" onclick="showTab('cart-tab')">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span id="cart-badge" class="badge">0</span>
+            </div>
+            
+            <div id="auth-actions">
+                <button id="login-btn" class="btn-outline">Giriş Yap</button>
+            </div>
+            
+            <div id="user-menu" style="display: none;" class="user-dropdown">
+                <button class="btn-outline dropdown-btn">
+                    <i class="fa-solid fa-user"></i> <span id="user-greeting">Kullanıcı</span>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showTab('orders-tab')"><i class="fa-solid fa-box"></i> Siparişlerim</a>
+                    <a href="#" onclick="showTab('admin-tab')" id="admin-link"><i class="fa-solid fa-shield-halved"></i> Admin Paneli</a>
+                    <a href="#" id="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> Çıkış Yap</a>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <header class="hero" id="home-section">
-        <div class="hero-content">
-            <h1>Geleceğin Alışveriş Deneyimi</h1>
-            <p>Otomatik ölçeklenebilir bulut altyapısı sayesinde hiçbir yavaşlama olmadan güvenle alışveriş yapın.</p>
-            <button class="btn-primary hero-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})">Ürünleri Keşfet</button>
-        </div>
-    </header>
-
-    <main>
-        <section class="products-section" id="products-section">
-            <h2>Öne Çıkan Ürünler</h2>
-            <div class="products-grid" id="products-container">
-                <!-- Products will be loaded here via JS -->
-                <div class="loading-spinner"></div>
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Products Tab -->
+        <section id="products-tab" class="tab-content active">
+            <div class="products-layout">
+                <aside class="sidebar">
+                    <h3>Kategoriler</h3>
+                    <ul class="category-list">
+                        <li class="active" onclick="filterCategory('')">Tümü</li>
+                        <li onclick="filterCategory('Teknoloji')">Teknoloji</li>
+                        <li onclick="filterCategory('Giyim')">Giyim</li>
+                        <li onclick="filterCategory('Aksesuar')">Aksesuar</li>
+                    </ul>
+                </aside>
+                <div class="products-grid" id="products-container">
+                    <!-- Products will be loaded here -->
+                    <div class="loader">Yükleniyor...</div>
+                </div>
             </div>
         </section>
 
-        <!-- Auth Modal -->
-        <div class="modal-overlay" id="auth-modal">
-            <div class="modal-content">
-                <button class="close-btn" id="close-modal">&times;</button>
-                <div class="auth-tabs">
-                    <button class="tab-btn active" data-tab="login">Giriş</button>
-                    <button class="tab-btn" data-tab="register">Kayıt</button>
+        <!-- Cart Tab -->
+        <section id="cart-tab" class="tab-content">
+            <h2 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Sepetim</h2>
+            <div class="cart-layout">
+                <div class="cart-items" id="cart-container">
+                    <!-- Cart items here -->
+                    <p>Sepetiniz boş.</p>
                 </div>
-                
-                <form id="login-form" class="auth-form active">
-                    <input type="email" id="login-email" placeholder="E-Posta" required>
-                    <input type="password" id="login-password" placeholder="Şifre" required>
-                    <button type="submit" class="btn-primary w-100">Giriş Yap</button>
-                    <p class="error-msg" id="login-error"></p>
-                </form>
+                <div class="cart-summary">
+                    <h3>Sipariş Özeti</h3>
+                    <div class="summary-row">
+                        <span>Ara Toplam:</span>
+                        <span id="cart-subtotal">0 ₺</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Kargo:</span>
+                        <span>Ücretsiz</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Toplam:</span>
+                        <span id="cart-total">0 ₺</span>
+                    </div>
+                    <button class="btn-primary w-100" id="checkout-btn">Ödemeyi Tamamla</button>
+                </div>
+            </div>
+        </section>
 
-                <form id="register-form" class="auth-form">
-                    <input type="text" id="reg-username" placeholder="Kullanıcı Adı" required>
-                    <input type="email" id="reg-email" placeholder="E-Posta" required>
-                    <input type="password" id="reg-password" placeholder="Şifre" required>
-                    <button type="submit" class="btn-primary w-100">Kayıt Ol</button>
-                    <p class="error-msg" id="reg-error"></p>
+        <!-- Orders Tab -->
+        <section id="orders-tab" class="tab-content">
+            <h2 class="section-title"><i class="fa-solid fa-box"></i> Sipariş Geçmişim</h2>
+            <div class="orders-list" id="orders-container">
+                <div class="loader">Yükleniyor...</div>
+            </div>
+        </section>
+
+        <!-- Admin Tab -->
+        <section id="admin-tab" class="tab-content">
+            <h2 class="section-title"><i class="fa-solid fa-plus-circle"></i> Yeni Ürün Ekle (Admin)</h2>
+            <div class="admin-panel form-card">
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label>Ürün Adı</label>
+                        <input type="text" id="admin-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea id="admin-desc" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Fiyat (₺)</label>
+                        <input type="number" id="admin-price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Resim URL</label>
+                        <input type="url" id="admin-image" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select id="admin-category">
+                            <option value="Teknoloji">Teknoloji</option>
+                            <option value="Giyim">Giyim</option>
+                            <option value="Aksesuar">Aksesuar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Stok Adedi</label>
+                        <input type="number" id="admin-stock" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-100">Ürünü Ekle</button>
                 </form>
             </div>
-        </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 CloudCart. Tüm hakları saklıdır. Bulut Bilişim Projesi.</p>
-    </footer>
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal">
+            <button class="close-btn" id="close-modal"><i class="fa-solid fa-times"></i></button>
+            <div class="modal-header">
+                <button class="tab-btn active" data-tab="login">Giriş Yap</button>
+                <button class="tab-btn" data-tab="register">Kayıt Ol</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div id="login-error" class="error-msg"></div>
+                <button type="submit" class="btn-primary w-100">Giriş Yap</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div id="reg-error" class="error-msg"></div>
+                <button type="submit" class="btn-primary w-100">Kayıt Ol</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
     <script src="app.js"></script>
 </body>
