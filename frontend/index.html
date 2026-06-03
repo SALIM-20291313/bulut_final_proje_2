@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudCart | Yeni Nesil E-Ticaret</title>
+    <meta name="description" content="Bulut mimarisi ile güçlendirilmiş, kesintisiz ve hızlı e-ticaret deneyimi.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">CloudCart<span>.</span></div>
+        <div class="nav-links">
+            <a href="#" id="home-link">Ana Sayfa</a>
+            <a href="#" id="products-link">Ürünler</a>
+            <a href="#" id="login-link" class="btn-primary">Giriş Yap</a>
+            <span id="user-greeting" style="display: none;"></span>
+            <a href="#" id="logout-link" class="btn-secondary" style="display: none;">Çıkış</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="home-section">
+        <div class="hero-content">
+            <h1>Geleceğin Alışveriş Deneyimi</h1>
+            <p>Otomatik ölçeklenebilir bulut altyapısı sayesinde hiçbir yavaşlama olmadan güvenle alışveriş yapın.</p>
+            <button class="btn-primary hero-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})">Ürünleri Keşfet</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="products-section" id="products-section">
+            <h2>Öne Çıkan Ürünler</h2>
+            <div class="products-grid" id="products-container">
+                <!-- Products will be loaded here via JS -->
+                <div class="loading-spinner"></div>
+            </div>
+        </section>
+
+        <!-- Auth Modal -->
+        <div class="modal-overlay" id="auth-modal">
+            <div class="modal-content">
+                <button class="close-btn" id="close-modal">&times;</button>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Giriş</button>
+                    <button class="tab-btn" data-tab="register">Kayıt</button>
+                </div>
+                
+                <form id="login-form" class="auth-form active">
+                    <input type="email" id="login-email" placeholder="E-Posta" required>
+                    <input type="password" id="login-password" placeholder="Şifre" required>
+                    <button type="submit" class="btn-primary w-100">Giriş Yap</button>
+                    <p class="error-msg" id="login-error"></p>
+                </form>
+
+                <form id="register-form" class="auth-form">
+                    <input type="text" id="reg-username" placeholder="Kullanıcı Adı" required>
+                    <input type="email" id="reg-email" placeholder="E-Posta" required>
+                    <input type="password" id="reg-password" placeholder="Şifre" required>
+                    <button type="submit" class="btn-primary w-100">Kayıt Ol</button>
+                    <p class="error-msg" id="reg-error"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 CloudCart. Tüm hakları saklıdır. Bulut Bilişim Projesi.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
