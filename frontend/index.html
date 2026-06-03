@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulut E-Ticaret | Premium Alışveriş</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="nav-brand" onclick="showTab('products-tab')">
+        <div class="nav-brand" onclick="window.location.hash='products-tab'">
             <i class="fa-solid fa-cloud"></i> BulutMarket
         </div>
         
@@ -21,7 +21,7 @@
         </div>
 
         <div class="nav-actions">
-            <div class="cart-icon" onclick="showTab('cart-tab')">
+            <div class="cart-icon" onclick="window.location.hash='cart-tab'">
                 <i class="fa-solid fa-shopping-cart"></i>
                 <span id="cart-badge" class="badge">0</span>
             </div>
@@ -35,8 +35,8 @@
                     <i class="fa-solid fa-user"></i> <span id="user-greeting">Kullanıcı</span>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#" onclick="showTab('orders-tab')"><i class="fa-solid fa-box"></i> Siparişlerim</a>
-                    <a href="#" onclick="showTab('admin-tab')" id="admin-link"><i class="fa-solid fa-shield-halved"></i> Admin Paneli</a>
+                    <a href="#orders-tab"><i class="fa-solid fa-box"></i> Siparişlerim</a>
+                    <a href="#admin-tab" id="admin-link"><i class="fa-solid fa-shield-halved"></i> Admin Paneli</a>
                     <a href="#" id="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> Çıkış Yap</a>
                 </div>
             </div>
@@ -54,7 +54,9 @@
                         <li class="active" onclick="filterCategory('')">Tümü</li>
                         <li onclick="filterCategory('Teknoloji')">Teknoloji</li>
                         <li onclick="filterCategory('Giyim')">Giyim</li>
-                        <li onclick="filterCategory('Aksesuar')">Aksesuar</li>
+                        <li onclick="filterCategory('Gıda')">Gıda</li>
+                        <li onclick="filterCategory('Oyuncak')">Oyuncak</li>
+                        <li onclick="filterCategory('Spor')">Spor</li>
                     </ul>
                 </aside>
                 <div class="products-grid" id="products-container">
@@ -184,6 +186,6 @@
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>

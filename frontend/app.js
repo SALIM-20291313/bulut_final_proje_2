@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAuthUI();
     updateCartUI();
     fetchProducts();
+    
+    // Sayfa ilk açıldığında URL'deki hash'e göre sekmeyi aç
+    const hash = window.location.hash.substring(1);
+    if (hash && document.getElementById(hash)) {
+        showTab(hash, false);
+    }
 });
 
 // Toast Notification System
@@ -40,12 +46,29 @@ function showToast(message, type = 'success') {
 }
 
 // Navigation Tabs
-window.showTab = function(tabId) {
+window.showTab = function(tabId, updateHash = true) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     
     if (tabId === 'orders-tab') fetchOrders();
+
+    // Tarayıcı geri/ileri butonları için Hash Routing (file:// destekler)
+    if (updateHash) {
+        if (window.location.hash !== `#${tabId}`) {
+            window.location.hash = tabId;
+        }
+    }
 };
+
+// Tarayıcı oklarına (Geri/İleri) basıldığında çalışır
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.substring(1);
+    if (hash && document.getElementById(hash)) {
+        showTab(hash, false);
+    } else {
+        showTab('products-tab', false);
+    }
+});
 
 // Auth UI
 function updateAuthUI() {
@@ -123,15 +146,23 @@ async function fetchProducts() {
     }
 }
 
+function getCategoryEmoji(cat) {
+    const map = { 'Teknoloji': '💻', 'Giyim': '👕', 'Gıda': '🍎', 'Oyuncak': '🧸', 'Spor': '⚽' };
+    return map[cat] || '🛍️';
+}
+
 function renderProducts(products) {
     if (products.length === 0) {
         productsContainer.innerHTML = `<p>Aradığınız kriterlere uygun ürün bulunamadı.</p>`;
         return;
     }
 
-    productsContainer.innerHTML = products.map(p => `
+    productsContainer.innerHTML = products.map(p => {
+        const emoji = getCategoryEmoji(p.category);
+        const fallbackSvg = `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500'><rect width='500' height='500' fill='%230d1117'/><text x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='120'>${emoji}</text><text x='50%25' y='68%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%2358a6ff' font-family='sans-serif'>${encodeURIComponent(p.category)}</text></svg>`;
+        return `
         <div class="product-card">
-            <img src="${p.image_url}" alt="${p.name}" class="product-img">
+            <img src="${p.image_url}" alt="${p.name}" class="product-img" onerror="this.onerror=null;this.src='${fallbackSvg}'">
             <div class="product-category">${p.category}</div>
             <h3 class="product-title">${p.name}</h3>
             <p class="product-desc">${p.description}</p>
@@ -143,7 +174,7 @@ function renderProducts(products) {
                 </button>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 // Cart System

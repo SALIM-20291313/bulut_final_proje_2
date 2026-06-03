@@ -5,88 +5,120 @@ const { Product } = require('./models');
 const products = [
     // --- GİYİM ---
     {
-        name: 'AWS Bulut Mimarisi T-Shirt',
-        description: 'Modern ve rahat %100 pamuklu, AWS logo detaylı tişört.',
+        name: 'Erkek Günlük T-Shirt',
+        description: 'Modern ve rahat %100 pamuklu, nefes alabilen kumaş.',
         price: 250.00,
-        image_url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        image_url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80',
         category: 'Giyim',
-        stock: 50
+        stock: 500
     },
     {
-        name: 'DevOps Kışlık Hoodie',
-        description: 'Soğuk ofis günlerinde sıcak tutan premium kapüşonlu.',
-        price: 550.00,
-        image_url: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        name: 'Slim Fit Erkek Tişört',
+        description: 'Vücudu saran özel kesim, spor ve günlük kullanım.',
+        price: 350.00,
+        image_url: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=500&q=80',
         category: 'Giyim',
-        stock: 30
+        stock: 300
     },
     {
-        name: 'Cloud Native Yazlık Şapka',
-        description: 'Güneşli günlerde dışarıda çalışırken kodlamaya devam et.',
-        price: 150.00,
-        image_url: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        name: 'Pamuklu Kışlık Ceket',
+        description: 'Soğuk günlerde içinizi ısıtacak kalın yapılı ceket.',
+        price: 850.00,
+        image_url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80',
         category: 'Giyim',
-        stock: 20
+        stock: 200
     },
     {
-        name: 'Python Developer Çorap',
-        description: 'Böceklerden (bug) uzak tutan şanslı yazılımcı çorabı.',
-        price: 60.00,
-        image_url: 'https://images.unsplash.com/photo-1582966772680-860e372bb558?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        name: 'Slim Fit Klasik Gömlek',
+        description: 'Özel günler veya ofis için ütü gerektirmeyen gömlek.',
+        price: 460.00,
+        image_url: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=500&q=80',
         category: 'Giyim',
-        stock: 100
+        stock: 1000
+    },
+    {
+        name: 'Gümüş Tasarım Yüzük',
+        description: 'Özel tasarım kararmayan gümüş yüzük.',
+        price: 850.00,
+        image_url: 'https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=500&q=80',
+        category: 'Aksesuar',
+        stock: 150
+    },
+    {
+        name: 'Altın Kaplama Kolye',
+        description: 'Şık davetler için pırlanta detaylı altın kaplama kolye.',
+        price: 1450.00,
+        image_url: 'https://images.unsplash.com/photo-1599643478524-fb66f70a00ea?auto=format&fit=crop&w=500&q=80',
+        category: 'Aksesuar',
+        stock: 250
     },
     
     // --- TEKNOLOJİ ---
     {
-        name: 'Mekanik Klavye (Red Switch)',
-        description: 'Sessiz ve hızlı tepki veren, RGB aydınlatmalı premium klavye.',
+        name: 'SSD Taşınabilir Disk (1 TB)',
+        description: 'USB 3.0 yüksek hızlı veri transferi ve kompakt tasarım.',
         price: 1250.00,
-        image_url: 'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        image_url: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=500&q=80',
         category: 'Teknoloji',
-        stock: 15
+        stock: 150
     },
     {
-        name: 'Gürültü Engelleyici Kulaklık',
-        description: 'Açık ofis ortamlarında odaklanmak için birebir.',
-        price: 2400.00,
-        image_url: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        name: 'SanDisk 256GB SSD',
+        description: 'Bilgisayarınızı uçuracak yeni nesil dahili SSD.',
+        price: 800.00,
+        image_url: 'https://images.unsplash.com/photo-1563208200-e79f6eb3cc9d?auto=format&fit=crop&w=500&q=80',
         category: 'Teknoloji',
-        stock: 8
+        stock: 80
     },
     {
-        name: 'Çift Monitör Standı',
-        description: 'Masa düzenini sağlayan, alüminyum alaşımlı 360 derece dönebilen stand.',
-        price: 850.00,
-        image_url: 'https://images.unsplash.com/photo-1542393545-10f5cde2c810?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+        name: 'WD Harici Hard Disk',
+        description: 'Tüm oyun ve yedekleriniz için devasa depolama alanı.',
+        price: 2850.00,
+        image_url: 'https://images.unsplash.com/photo-1563208200-e79f6eb3cc9d?auto=format&fit=crop&w=500&q=80',
         category: 'Teknoloji',
-        stock: 25
-    },
-
-    // --- AKSESUAR ---
-    {
-        name: 'Server Kupa Bardak',
-        description: 'Bitmeyen kodlama seansları için büyük boy kahve kupası.',
-        price: 120.00,
-        image_url: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-        category: 'Aksesuar',
-        stock: 100
+        stock: 250
     },
     {
-        name: 'Ergonomik Mouse Pad',
-        description: 'Bilek destekli, masayı tam kaplayan geniş yüzeyli mouse pad.',
-        price: 180.00,
-        image_url: 'https://images.unsplash.com/photo-1527814050087-379381547961?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-        category: 'Aksesuar',
+        name: 'Samsung 49 inç Kavisli Monitör',
+        description: 'Oyuncular için tasarlanmış devasa QLED kavisli ekran.',
+        price: 27500.00,
+        image_url: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=500&q=80',
+        category: 'Teknoloji',
         stock: 45
     },
     {
-        name: 'Kablo Toplayıcı Organizer',
-        description: 'Masanızdaki kablo karmaşasına son veren şık çözüm.',
-        price: 85.00,
-        image_url: 'https://images.unsplash.com/photo-1620608518974-9464b9015975?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-        category: 'Aksesuar',
-        stock: 200
+        name: 'Acer 21.5 inç Full HD Ekran',
+        description: 'Ofis ve genel kullanım için çerçevesiz monitör.',
+        price: 2950.00,
+        image_url: 'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?auto=format&fit=crop&w=500&q=80',
+        category: 'Teknoloji',
+        stock: 300
+    },
+
+    // --- KADIN GİYİM ---
+    {
+        name: 'Kadın Kışlık Kaban',
+        description: 'Zarif kesimiyle hem şık hem de sıcak tutan kaban.',
+        price: 1200.00,
+        image_url: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?auto=format&fit=crop&w=500&q=80',
+        category: 'Giyim',
+        stock: 1000
+    },
+    {
+        name: 'Kadın Deri Ceket',
+        description: 'Motorcu tarzı kısa deri ceket.',
+        price: 980.00,
+        image_url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80',
+        category: 'Giyim',
+        stock: 450
+    },
+    {
+        name: 'Kadın Basic Tişört',
+        description: 'Günlük kombinleriniz için vazgeçilmez V yaka tişört.',
+        price: 185.00,
+        image_url: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=500&q=80',
+        category: 'Giyim',
+        stock: 2000
     }
 ];
 
@@ -97,7 +129,7 @@ const seedDB = async () => {
         await Product.deleteMany({});
         await Product.insertMany(products);
         
-        console.log("Örnek ürünler MongoDB'ye başarıyla eklendi!");
+        console.log("Örnek ürünler MongoDB'ye başarıyla eklendi! Toplam: " + products.length);
         process.exit();
     } catch (error) {
         console.error("Veri eklenirken hata oluştu:", error.message);
